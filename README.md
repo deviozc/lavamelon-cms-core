@@ -1,4 +1,4 @@
-# Lavamalen CMS
+# Lavamalon CMS
 
 ## Overview
 
