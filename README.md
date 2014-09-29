@@ -2,7 +2,17 @@
 
 ## Overview
 
-A lightweight content management system backend that supports multi-site on the same backend.
+A content management system backend based on Sails.js that supports multi-site.
+
+## Getting start
+
+Setup database connection in /config/connections.js
+
+Setup server environment in /config/env/
+
+```bash
+sails lift
+```
 
 ##RESTful API
 
