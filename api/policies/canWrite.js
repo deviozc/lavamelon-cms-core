@@ -8,7 +8,7 @@
 module.exports = function canWrite(req, res, next) {
     var userId = req.session.userId;
     var domain = req.body.domain;
-    if(!site){
+    if(!domain){
         return res.forbidden('You are not permitted to perform this action.');
     }
     
