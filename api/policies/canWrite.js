@@ -7,7 +7,7 @@
  */
 module.exports = function canWrite(req, res, next) {
     var userId = req.session.userId;
-    var site = req.body.site;
+    var domain = req.body.domain;
     if(!site){
         return res.forbidden('You are not permitted to perform this action.');
     }
@@ -18,7 +18,7 @@ module.exports = function canWrite(req, res, next) {
     .exec(function(err, data){
         if(err) return next(err);
         var canWrite = data.sites.some(function(element) {
-            return element.id === site;
+            return element.domain === domain;
         });
         if(canWrite){
             return next();
