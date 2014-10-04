@@ -40,6 +40,6 @@ A generic content type that stores title and content
 | Endpoint | Description | Parameters |
 | ---- | --------------- | ---------------------|
 | POST /articles | Add an article (site owner only) | json {'template':templateName, 'section': sectionName, 'domain': domain, en: {title: "title", body: "body"}} |
-| PUT /articles | Edit an article (site owner only) | same as POST |
+| PUT /articles/:articleId | Edit an article (site owner only) | same as POST |
 | GET /sites/:domain/articles | Get all articles of the domain | none |
 | GET sites/:domain/section/:section/articles | Get all articles of a section of a site | none |
