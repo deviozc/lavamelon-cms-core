@@ -31,7 +31,7 @@ sails lift
 | Endpoint | Description | Parameters |
 | ---- | --------------- | ---------------------|
 | POST /sites | Add a site (Admin only) | domain |
-| POST /users/:userId/sites/siteId | Add site owner (admin only) | none |
+| POST /users/:userId/sites/:siteId | Add site owner (admin only) | none |
 
 ###Content Type - Article
 
@@ -41,5 +41,6 @@ A generic content type that stores title and content
 | ---- | --------------- | ---------------------|
 | POST /articles | Add an article (site owner only) | json {'template':templateName, 'section': sectionName, 'domain': domain, en: {title: "title", body: "body"}} |
 | PUT /articles/:articleId | Edit an article (site owner only) | same as POST |
+| DELETE /articles/:articleId | Delete an article (site owner only) | none |
 | GET /sites/:domain/articles | Get all articles of the domain | none |
 | GET sites/:domain/section/:section/articles | Get all articles of a section of a site | none |
