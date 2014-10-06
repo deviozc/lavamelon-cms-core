@@ -10,11 +10,11 @@ module.exports = {
   attributes: {
       title: {
           type: 'string',
-          required: 'string'
+          required: true
       },
       body: {
           type: 'string',
-          required: 'string'
+          required: true
       },
       image: {
           type: 'array'
