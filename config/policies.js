@@ -21,7 +21,8 @@ module.exports.policies = {
     ArticleController:{
         '*': ['sessionAuth', 'isAdmin'],
         create: ['sessionAuth','canWrite'],
-        edit: ['sessionAuth','canWrite'],
+        update: ['sessionAuth','canModifyArticle'],
+        destroy: ['sessionAuth', 'canModifyArticle'],
         findByDomain: true,
         findBySection: true
     },
