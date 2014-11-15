@@ -7,7 +7,11 @@
  */
 module.exports = function canWrite(req, res, next) {
     var userId = req.session.userId;
-    var domain = req.body.domain;
+    
+    var domain;
+    if(!!req.body){
+        domain = req.body.domain || req.param.domain;
+    }
     if(!domain){
         return res.forbidden('You are not permitted to perform this action.');
     }
@@ -18,8 +22,14 @@ module.exports = function canWrite(req, res, next) {
     .exec(function(err, data){
         if(err) return next(err);
         var canWrite = data.sites.some(function(element) {
-            return element.domain === domain;
+            if(element.domain === domain){
+                // inject site id into the request object
+                req.body.site = element.id
+                return true;
+            }
+            return false;
         });
+   
         if(canWrite){
             return next();
         }

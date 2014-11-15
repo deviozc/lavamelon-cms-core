@@ -39,8 +39,18 @@ A generic content type that stores title and content
 
 | Endpoint | Description | Parameters |
 | ---- | --------------- | ---------------------|
-| POST /articles | Add an article (site owner only) | json {'template':templateName, 'section': sectionName, 'domain': domain, en: {title: "title", body: "body"}} |
+| POST /articles | Add an article (site owner only) | json {"template":"template", "section": "section", "domain": "domain", "en":{"title":"title", "body": "body"}} |
 | PUT /articles/:articleId | Edit an article (site owner only) | same as POST |
 | DELETE /articles/:articleId | Delete an article (site owner only) | none |
 | GET /sites/:domain/articles | Get all articles of the domain | none |
 | GET sites/:domain/section/:section/articles | Get all articles of a section of a site | none |
+
+###Content Type - File
+
+Content type that keeps teack of uploaded file
+
+| Endpoint | Description | Parameters |
+| ---- | --------------- | ---------------------|
+| POST /files/upload | upload a file (site owner only) | filename, domain, file(octet-stream) |
+| GET /sites/:domain/files | Get all files on the site | none |
+| DELETE /files/:fileId | Delete a file (site owner only) | none |

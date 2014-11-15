@@ -19,6 +19,22 @@ module.exports = {
         articles: {
             collection: "article",
             via: "site"
+        },
+        file: {
+            collection: "file",
+            via: "site"
+        },
+        assetPath: {
+            type: 'string',
+            required: true
         }
+    },
+    getAssetPath: function(domain, cb){
+        Site
+        .findOne({domain: domain})
+        .exec(function(err, site){
+            if(err) return cb(err);
+            return cb(null, site.assetPath);
+        });;
     }
 };

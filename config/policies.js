@@ -34,6 +34,11 @@ module.exports.policies = {
         'login': true,
         'logout': 'sessionAuth',
         'me': 'sessionAuth'
+    },
+    FileController: {
+        '*': ['sessionAuth', 'isAdmin'],
+        'upload': ['sessionAuth', 'canWrite'],
+        'get': ['sessionAuth', 'canWrite']
     }
 
   /***************************************************************************

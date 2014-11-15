@@ -36,7 +36,9 @@ module.exports.routes = {
     'post /users/logout': 'UserController.logout',
     'get /users/me': 'UserController.me',
     'get /sites/:domain/articles': 'ArticleController.findByDomain',
-    'get /sites/:domain/section/:section/articles': 'ArticleController.findBySection'
+    'get /sites/:domain/section/:section/articles': 'ArticleController.findBySection',
+    'get /sites/:domain/files': 'FileController.findByDomain',
+    'delete /files/:fileId': 'FileController.delete'
     /***************************************************************************
      *                                                                          *
      * Custom routes here...                                                    *
