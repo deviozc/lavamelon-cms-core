@@ -8,9 +8,9 @@
  * For more information on bootstrapping your app, check out:
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.bootstrap.html
  */
-
+var path = require("path");
 module.exports.bootstrap = function(cb) {
-
+  sails.config.paths.public = path.resolve(sails.config.appPath, "assets");
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
   cb();

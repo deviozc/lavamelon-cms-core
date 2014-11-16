@@ -40,6 +40,7 @@ module.exports.routes = {
     'get /sites/:domain/files': 'FileController.findByDomain',
     'delete /files/:fileId': 'FileController.delete',
     'get /sites/:domain/images': 'FileController.findImageByDomain',
+    
 
     /***************************************************************************
      *                                                                          *
