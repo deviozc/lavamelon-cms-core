@@ -26,11 +26,8 @@ module.exports = function canWrite(req, res, next) {
         var canWrite = data.sites.some(function(element) {
             if(element.domain === domain){
                 // inject site id into the request object
-                if(!!req.body){
-                    req.body.site = element.id;
-                }else{
-                    req.site = element.id;
-                }
+                req.body.site = element.id;
+                req.site = element.id;
                 return true;
             }
             return false;
