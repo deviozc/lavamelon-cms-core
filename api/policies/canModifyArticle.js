@@ -20,14 +20,16 @@ module.exports = function canModifyArticle(req, res, next) {
                 .then(function(user){
             return user;
         });
-        
+        console.log(article);
         return [article.site, user];
     }).spread(function(site, user){
         var sites = user.sites;
         if(!sites){
             return res.forbidden('You are not permitted to perform this action.');
         }
+        
         var canModified = sites.some(function(element){
+            
             return element.id === site.id;
         });
         if(canModified){
