@@ -68,7 +68,7 @@ module.exports = {
                     cb(new Error("No such file"), null);
                     return;
                 }
-                fs.unlink(sails.config.constants.baseAssetsDirectory + "/" + file.relativePath, function (err) {
+                fs.unlink(sails.config.constants.baseAssetsDirectory + file.relativePath, function (err) {
                     cb(err, file);
                 });
             },

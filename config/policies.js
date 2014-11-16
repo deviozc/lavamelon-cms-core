@@ -40,7 +40,8 @@ module.exports.policies = {
         'upload': ['sessionAuth', 'canWrite'],
         'get': ['sessionAuth', 'canWrite'],
         'findByDomain': ['sessionAuth', 'canWrite'],
-        'findImageByDomain': ['sessionAuth', 'canWrite']
+        'findImageByDomain': ['sessionAuth', 'canWrite'],
+        'delete': ['sessionAuth', 'canDeleteFile']
     }
 
   /***************************************************************************
