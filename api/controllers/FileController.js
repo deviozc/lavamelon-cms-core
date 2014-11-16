@@ -29,7 +29,7 @@ module.exports = {
                 req.file('file')
                 .upload({
                     maxBytes: sails.config.constants.uploadMaxBytes,
-                    dirname: sails.config.constants.baseDirectory + path,
+                    dirname: sails.config.constants.baseAssetsDirectory + path,
                     saveAs: filename
                 }, function (err, uploadedFiles){
                     cb(err, uploadedFiles, path)
