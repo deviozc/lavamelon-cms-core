@@ -29,15 +29,17 @@ module.exports = {
                 req.file('file')
                 .upload({
                     maxBytes: sails.config.constants.uploadMaxBytes,
-                    dirname: path,
+                    dirname: sails.config.constants.baseDirectory + path,
                     saveAs: filename
-                }, cb)
+                }, function (err, uploadedFiles){
+                    cb(err, uploadedFiles, path)
+                })
             },
-            function(uploadedFiles, cb){
+            function(uploadedFiles, path, cb){
                 uploadedFiles.forEach(function(element){
                     console.log(element);
                     File
-                    .create({filename: filename, fullPath: element.fd, contentType: element.type, site: req.site})
+                    .create({filename: filename, relativePath: path + "/" + filename, contentType: element.type, site: req.site})
                     .exec(function(err, created){
                         cb(err, created);
                     });
@@ -66,7 +68,7 @@ module.exports = {
                     cb(new Error("No such file"), null);
                     return;
                 }
-                fs.unlink(file.fullPath, function (err) {
+                fs.unlink(sails.config.constants.baseAssetsDirectory + "/" + file.relativePath, function (err) {
                     cb(err, file);
                 });
             },

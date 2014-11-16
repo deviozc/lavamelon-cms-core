@@ -12,7 +12,7 @@ module.exports = {
           type: "string",
           required: true
       },
-      fullPath: {
+      relativePath: {
           type: "string",
           required: true
       },

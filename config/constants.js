@@ -9,5 +9,6 @@ module.exports.constants = {
     // 0 => infinite
     // 240000 => 4 minutes (240,000 miliseconds)
     uploadTimeout: 120000,
-    uploadMaxBytes: 10000000
+    uploadMaxBytes: 10000000,
+    baseAssetsDirectory: "/home/codio/workspace/cms/assets"
 }
