@@ -51,6 +51,6 @@ Content type that keeps teack of uploaded file
 
 | Endpoint | Description | Parameters |
 | ---- | --------------- | ---------------------|
-| POST /files/upload | upload a file (site owner only) | filename, domain, file(octet-stream) |
+| POST /files/upload | upload a file (site owner only) | domain, file(octet-stream) |
 | GET /sites/:domain/files | Get all files on the site | none |
 | DELETE /files/:fileId | Delete a file (site owner only) | none |

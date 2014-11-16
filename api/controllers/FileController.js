@@ -15,9 +15,10 @@ module.exports = {
         pluralize: true
     },
     upload: function(req, res){
-        if(!req.body.filename) {
-            res.badRequest('Missing filename');
+        if(req.file("file")._files.length === 0){
+            res.badRequest("Missing File");
         }
+        var filename = req.file("file")._files[0].stream.filename;
         res.setTimeout(sails.config.constants.uploadTimeout);
         async.waterfall([
             function(callback){
@@ -29,13 +30,14 @@ module.exports = {
                 .upload({
                     maxBytes: sails.config.constants.uploadMaxBytes,
                     dirname: path,
+                    saveAs: filename
                 }, cb)
             },
             function(uploadedFiles, cb){
                 uploadedFiles.forEach(function(element){
                     console.log(element);
                     File
-                    .create({filename: req.body.filename, fullPath: element.fd, contentType: element.type, site: req.body.site})
+                    .create({filename: filename, fullPath: element.fd, contentType: element.type, site: req.body.site})
                     .exec(function(err, created){
                         cb(err, created);
                     });
