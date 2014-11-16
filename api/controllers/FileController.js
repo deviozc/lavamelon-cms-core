@@ -17,6 +17,7 @@ module.exports = {
     upload: function(req, res){
         if(req.file("file")._files.length === 0){
             res.badRequest("Missing File");
+            return;
         }
         var filename = req.file("file")._files[0].stream.filename;
         res.setTimeout(sails.config.constants.uploadTimeout);
@@ -37,13 +38,19 @@ module.exports = {
             },
             function(uploadedFiles, path, cb){
                 uploadedFiles.forEach(function(element){
-                    console.log(element);
                     File
                     .create({filename: filename, relativePath: path + "/" + filename, contentType: element.type, site: req.site})
                     .exec(function(err, created){
-                        cb(err, created);
+                        cb(err, created, uploadedFiles);
                     });
                 });
+            },
+            function(created, files, cb){
+                files.every(function(element){
+                    return fs.existsSync(element.fd);
+                });
+
+                cb(null, created);
             }
         ], function(err, uploadedFiles){
             if (err) return res.serverError(err);
