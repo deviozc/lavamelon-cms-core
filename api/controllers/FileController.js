@@ -46,11 +46,14 @@ module.exports = {
                 });
             },
             function(created, files, cb){
-                files.every(function(element){
-                    return fs.existsSync(element.fd);
-                });
+                setTimeout(function(){
+                    files.every(function(element){
+                        return fs.existsSync(element.fd);
+                    });
 
-                cb(null, created);
+                    cb(null, created);
+                }, 1000);
+                
             }
         ], function(err, uploadedFiles){
             if (err) return res.serverError(err);
