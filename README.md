@@ -53,4 +53,5 @@ Content type that keeps teack of uploaded file
 | ---- | --------------- | ---------------------|
 | POST /files/upload | upload a file (site owner only) | domain, file(octet-stream) |
 | GET /sites/:domain/files | Get all files on the site | none |
+| GET /sites/:domain/images | Get all images on the site | none |
 | DELETE /files/:fileId | Delete a file (site owner only) | none |

@@ -37,7 +37,7 @@ module.exports = {
                 uploadedFiles.forEach(function(element){
                     console.log(element);
                     File
-                    .create({filename: filename, fullPath: element.fd, contentType: element.type, site: req.body.site})
+                    .create({filename: filename, fullPath: element.fd, contentType: element.type, site: req.site})
                     .exec(function(err, created){
                         cb(err, created);
                     });
@@ -84,10 +84,17 @@ module.exports = {
     },
     findByDomain: function(req, res) {
         var domain = req.param('domain');
-        File.findBySiteDomain({domain: domain}, function(err, files) {
+        File.findBySiteDomain({domain: domain, imageOnly: false}, function(err, files) {
             if(err) res.serverError('Server error');
             res.json(files);
-        })
+        });
     },
+    findImageByDomain: function(req, res) {
+        var domain = req.param('domain');
+        File.findBySiteDomain({domain: domain, imageOnly: true}, function(err, files) {
+            if(err) res.serverError('Server error');
+            res.json(files);
+        });
+    }
 };
 

@@ -26,8 +26,14 @@ module.exports = {
   },
   findBySiteDomain: function(opts, cb){
       var domain = opts.domain;
+      var condition = {};
+      if(opts.imageOnly){
+          condition["contentType"] = /image.*/;
+      }
+          
+
       File
-      .find()
+      .find(condition)
       .populate('site', {domain: domain})
       .exec(function(err, files){
           if(err) return cb(err);

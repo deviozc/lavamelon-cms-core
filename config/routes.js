@@ -38,7 +38,8 @@ module.exports.routes = {
     'get /sites/:domain/articles': 'ArticleController.findByDomain',
     'get /sites/:domain/section/:section/articles': 'ArticleController.findBySection',
     'get /sites/:domain/files': 'FileController.findByDomain',
-    'delete /files/:fileId': 'FileController.delete'
+    'delete /files/:fileId': 'FileController.delete',
+    'get /sites/:domain/images': 'FileController.findImageByDomain'
     /***************************************************************************
      *                                                                          *
      * Custom routes here...                                                    *
