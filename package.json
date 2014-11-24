@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "bcrypt": "~0.8.0",
+    "fast-csv": "~0.5.4",
     "sails": "~0.10.5",
     "sails-disk": "~0.10.0",
     "sails-mongo": "~0.10.4",
