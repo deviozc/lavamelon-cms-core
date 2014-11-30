@@ -10,10 +10,14 @@ module.exports = {
     importFromCSV: function(options) {
         var mapping = sails.config.constants.mlsFieldToMongoMapping;
         var filePath = options.filePath;
+        var site = options.site;
+        var count = 0;
         csv.fromPath(filePath, {
             headers: true
         }).on("data", function(data) {
             var record = {};
+            count++;
+            record.site = site;
             Object.keys(mapping).forEach(function(key) {
                 var mapTo = mapping[key];
                 var field = data[key];
@@ -25,7 +29,7 @@ module.exports = {
                 if(err){
                     console.log(err);
                 }
-                console.log(record);
+//                 console.log(record);
             });
         }).on("end", function() {
             console.log("done");

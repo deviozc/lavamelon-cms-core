@@ -28,11 +28,16 @@ module.exports.constants = {
         378: "totalBedroom",
         3928: "totalBath",
         411: "remarks",
-        2985: "remarks2",
+        3985: "remarks2",
         2460: "lotSize",
         3922: "totalFloorSize",
         2731: "style",
         2733: "typeOfDwelling",
         3926: "influence",
+        342: "listAgentId",
+        2703: "listAgentName",
+        2711: "listAgentPhone",
+        2705: "listAgentURL",
+        2679: "listFirmName"
     }
 }

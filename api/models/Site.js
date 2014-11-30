@@ -24,6 +24,10 @@ module.exports = {
             collection: "file",
             via: "site"
         },
+        property: {
+            collection: "property",
+            via: "site"
+        },
         assetPath: {
             type: 'string',
             required: true
