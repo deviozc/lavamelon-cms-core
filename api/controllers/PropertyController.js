@@ -50,6 +50,12 @@ module.exports = {
                 });
             }
         ], function(err, siteId) {
+            if(err){
+                res.serverError("DB error");
+            }
+            if(!siteId){
+                res.badRequest("Site not found");
+            }
             condition.site = siteId;
             Property.find(condition).exec(function(err, properties) {
                 if(err) res.serverError("db error");
