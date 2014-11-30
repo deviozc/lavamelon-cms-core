@@ -10,6 +10,10 @@ module.exports = {
             type: "integer",
             required: true
         },
+        type: {
+            type: "string",
+            required: true
+        },
         propertyType: {
             type: "string",
             required: true
