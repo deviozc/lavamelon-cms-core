@@ -39,7 +39,7 @@ A generic content type that stores title and content
 
 | Endpoint | Description | Parameters |
 | ---- | --------------- | ---------------------|
-| POST /articles | Add an article (site owner only) | json {"template":"template", "section": "section", "domain": "domain", "en":{"title":"title", "body": "body"}} |
+| POST /articles | Add an article (site owner only) | json {"template":"template", "section": "section", "images":["file_id"], "domain": "domain", "en":{"title":"title", "body": "body"}} |
 | PUT /articles/:articleId | Edit an article (site owner only) | same as POST |
 | DELETE /articles/:articleId | Delete an article (site owner only) | none |
 | GET /sites/:domain/articles | Get all articles of the domain | none |
