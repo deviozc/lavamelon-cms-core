@@ -5,7 +5,7 @@
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 module.exports = {
-    schema:true,
+    schema: true,
     attributes: {
         template: {
             type: "string",
@@ -21,29 +21,69 @@ module.exports = {
         zh: {
             model: 'articleContent'
         },
-        site:{
+        images: {
+            type: "array"
+        },
+        site: {
             model: 'site'
         }
     },
-    findBySiteDomainSection: function(opts, cb){
+    findBySiteDomainSection: function(opts, callback) {
         var domain = opts.domain;
         var section = opts.section;
         var articleFindCondition = {};
-        if(!!section){
-            articleFindCondition = {section: section};
+        if( !! section) {
+            articleFindCondition = {
+                section: section
+            };
         }
-        Article
-        .find(articleFindCondition)
-        .populate('en')
-        .populate('zh')
-        .populate('site', {domain: domain})
-        .exec(function(err, articles){
-            if(err) return cb(err);
-            articles.forEach(function(element){
-                delete element.site;
-            });
-            return cb(null, articles);
+        async.waterfall([
+            function(cb) {
+                Article.find(articleFindCondition).populate('en').populate('zh').populate('site', {
+                    domain: domain
+                }).exec(function(err, articles) {
+                    if(err) return cb(err);
+                    return cb(null, articles);
+                });
+            },
+            function(articles, cb) {
+                var condition = [];
+                articles.forEach(function(element) {
+                    delete element.site;
+                    if( !! element.images && element.images.length > 0) {
+                        element.images.forEach(function(image) {
+                            condition.push({
+                                id: image
+                            });
+                        });
+                    }
+                });
+                File.find({
+                    $or: condition
+                }).exec(function(err, imageResult) {
+                    articles.forEach(function(element) {
+                        if( !! element.images) {
+                            element.images = element.images.map(function(image) {
+                                var mappedResult = {};
+                                imageResult.some(function(result) {
+                                    if(result.id == image) {
+                                        mappedResult = result;
+                                        return true;
+                                    }
+                                    return false;
+                                });
+                                return mappedResult;
+                            });
+                        }
+                    });
+                    cb(null, articles);
+                });
+            }
+        ], function(err, articles) {
+            if(err) {
+                callback(err);
+            }
+            return callback(null, articles);
         });
-    
     }
 };
