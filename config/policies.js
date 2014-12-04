@@ -42,6 +42,14 @@ module.exports.policies = {
         'findByDomain': ['sessionAuth', 'canWrite'],
         'findImageByDomain': ['sessionAuth', 'canWrite'],
         'delete': ['sessionAuth', 'canDeleteFile']
+    },
+    PropertyController: {
+        '*': ['sessionAuth', 'isAdmin'],
+        'get': true,
+        'getOne': true,
+        create: ['sessionAuth', 'canWrite'],
+        update: ['sessionAuth', 'canModifyProperty'],
+        destroy: ['sessionAuth', 'canModifyProperty']
     }
 
   /***************************************************************************

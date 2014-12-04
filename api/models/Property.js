@@ -38,6 +38,11 @@ module.exports = {
             type: "string",
             required: true
         },
+        imported: {
+            type: "boolean",
+            required: true,
+            defaultTo: true
+        },
         yearBuilt: {
             type: "integer"
         },
