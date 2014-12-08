@@ -45,6 +45,15 @@ A generic content type that stores title and content
 | GET /sites/:domain/articles | Get all articles of the domain | none |
 | GET sites/:domain/section/:section/articles | Get all articles of a section of a site | none |
 
+###Content Type - Property
+
+A genertic content type for real estate property
+
+| Endpoint | Description | Parameters |
+| ---- | --------------- | ---------------------|
+| GET /properties | get properties | queryString - domain(required), mls(mls ID, optional), agent(agent V number, optional), type(property type, eg. House/Single Family, optional) |
+| GET /properties/:propertyId | get a property| none |
+
 ###Content Type - File
 
 Content type that keeps teack of uploaded file
