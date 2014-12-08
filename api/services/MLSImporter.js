@@ -24,7 +24,8 @@ module.exports = {
                 if( !! field) {
                     record[mapTo] = field;
                 }
-                record.type = 'current';
+                record.type = 'for_sale';
+                record.status = 'active';
             });
             Property.create(record).exec(function(err, created) {
                 if(err){

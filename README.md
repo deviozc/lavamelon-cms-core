@@ -53,6 +53,8 @@ A genertic content type for real estate property
 | ---- | --------------- | ---------------------|
 | GET /properties?domain=domain&mls=mlsID&agent=agentID&type=propertyType&page=PageNum | get properties, limit 100 listings per request. Use page param to navigate | queryString - domain(required), mls(mls ID, optional), agent(agent V number, optional), type(property type, eg. House/Single Family, optional), page(page index, start from 0, optional) |
 | GET /properties/:propertyId | get a property| none |
+| PUT /properties/:id | Edit a property (site owner only) | same as POST |
+| DELETE /properties/:id | Delete a property (site owner only) | none |
 
 ###Content Type - File
 
