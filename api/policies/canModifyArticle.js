@@ -7,8 +7,7 @@
  */
 module.exports = function canModifyArticle(req, res, next) {
     var userId = req.session.userId;
-    var articleId = req.params.id;
-    console.log(articleId);
+    var articleId = req.param('id');
     if(!articleId){
         return res.forbidden('You are not permitted to perform this action.');
     }

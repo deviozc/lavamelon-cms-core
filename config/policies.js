@@ -49,7 +49,7 @@ module.exports.policies = {
         'getOne': true,
         create: ['sessionAuth', 'canWrite'],
         update: ['sessionAuth', 'canModifyProperty'],
-        destroy: ['sessionAuth', 'canModifyProperty']
+        deleteProperty: ['sessionAuth', 'canModifyProperty']
     }
 
   /***************************************************************************

@@ -12,7 +12,15 @@ module.exports = {
         },
         type: {
             type: "string",
-            required: true
+            required: true,
+            enum: ['for_sale', 'sold'],
+            defaultsTo: 'for_sale'
+        },
+        status: {
+            type: "string",
+            required: true,
+            enum: ['active', 'deleted'],
+            defaultsTo: 'active'
         },
         propertyType: {
             type: "string",
@@ -114,3 +122,4 @@ module.exports = {
         }
     }
 };
+;

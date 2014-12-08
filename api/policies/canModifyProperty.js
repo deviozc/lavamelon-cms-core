@@ -7,8 +7,7 @@
 */
 module.exports = function canModifyProperty(req, res, next) {
     var userId = req.session.userId;
-    var propertyId = req.params.id;
-    console.log(propertyId);
+    var propertyId = req.param('id');
     if(!propertyId){
         return res.forbidden('You are not permitted to perform this action.');
     }

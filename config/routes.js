@@ -43,7 +43,8 @@ module.exports.routes = {
     
     'get /importProperties': 'PropertyController.importProperties',    
     'get /properties': 'PropertyController.get',
-    'get /properties/:id': 'PropertyController.getOne'
+    'get /properties/:id': 'PropertyController.getOne',
+    'delete /properties/:id': 'PropertyController.deleteProperty'
 
     /***************************************************************************
      *                                                                          *

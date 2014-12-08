@@ -12,7 +12,7 @@ module.exports = {
         pluralize: true
     },
     importProperties: function(req, res) {
-	console.log('test');
+        console.log('test');
         MLSImporter.importFromCSV({
             filePath: __dirname + "/../../assets/property-11.csv",
             site: '547a9b245f6520773cef756c'
@@ -20,8 +20,22 @@ module.exports = {
     },
     getOne: function(req, res) {
         var id = req.param('id');
-        Property.findOne({id:id})
-        .exec(function(err, property){
+        Property.findOne({
+            id: id,
+            status: 'active'
+        }).exec(function(err, property) {
+            if(err) res.serverError('db error');
+            res.json(property);
+            return;
+        });
+    },
+    deleteProperty: function(req, res) {
+        var id = req.param('id');
+        Property.update({
+            id: id
+        }, {
+            status: 'deleted'
+        }).exec(function(err, property) {
             if(err) res.serverError('db error');
             res.json(property);
             return;
@@ -34,7 +48,9 @@ module.exports = {
         var mlsID = req.query.mls;
         var page = req.query.page;
         var limit = 100;
-        var pagination = {limit: limit};
+        var pagination = {
+            limit: limit
+        };
         if( !! page) {
             pagination.page = page;
         }
@@ -42,7 +58,9 @@ module.exports = {
             res.badRequest('Invalid request, missing domain');
             return;
         }
-        var condition = {};
+        var condition = {
+            status: 'active'
+        };
         if( !! agent) {
             condition["listAgentId"] = agent;
         }
@@ -61,10 +79,10 @@ module.exports = {
                 });
             }
         ], function(err, siteId) {
-            if(err){
+            if(err) {
                 res.serverError("DB error");
             }
-            if(!siteId){
+            if(!siteId) {
                 res.badRequest("Site not found");
             }
             condition.site = siteId;
