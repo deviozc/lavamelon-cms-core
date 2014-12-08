@@ -41,7 +41,7 @@ module.exports = {
         imported: {
             type: "boolean",
             required: true,
-            defaultTo: true
+            defaultsTo: true
         },
         yearBuilt: {
             type: "integer"

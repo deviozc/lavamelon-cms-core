@@ -6,15 +6,16 @@
  */
 module.exports = {
     _config: {
-        actions: true,
+        actions: false,
         shortcuts: false,
         rest: true,
         pluralize: true
     },
-    import: function(req, res) {
+    importProperties: function(req, res) {
+	console.log('test');
         MLSImporter.importFromCSV({
             filePath: __dirname + "/../../assets/property-11.csv",
-            site: '54228a6912e32302038e11c2'
+            site: '547a9b245f6520773cef756c'
         });
     },
     getOne: function(req, res) {
