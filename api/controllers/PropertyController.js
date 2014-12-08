@@ -31,6 +31,12 @@ module.exports = {
         var agent = req.query.agent;
         var type = req.query.type;
         var mlsID = req.query.mls;
+        var page = req.query.page;
+        var limit = 100;
+        var pagination = {limit: limit};
+        if( !! page) {
+            pagination.page = page;
+        }
         if(!domain) {
             res.badRequest('Invalid request, missing domain');
             return;
@@ -43,7 +49,7 @@ module.exports = {
             condition["propertyType"] = type;
         }
         if( !! mlsID) {
-            condition["mlsNumber"] = mls;
+            condition["mlsNumber"] = mlsID;
         }
         async.waterfall([
             function(cb) {
@@ -61,7 +67,7 @@ module.exports = {
                 res.badRequest("Site not found");
             }
             condition.site = siteId;
-            Property.find(condition).exec(function(err, properties) {
+            Property.find(condition).paginate(pagination).exec(function(err, properties) {
                 if(err) res.serverError("db error");
                 res.json(properties);
                 return;

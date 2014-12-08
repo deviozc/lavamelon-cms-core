@@ -51,7 +51,7 @@ A genertic content type for real estate property
 
 | Endpoint | Description | Parameters |
 | ---- | --------------- | ---------------------|
-| GET /properties | get properties | queryString - domain(required), mls(mls ID, optional), agent(agent V number, optional), type(property type, eg. House/Single Family, optional) |
+| GET /properties?domain=domain&mls=mlsID&agent=agentID&type=propertyType&page=PageNum | get properties, limit 100 listings per request. Use page param to navigate | queryString - domain(required), mls(mls ID, optional), agent(agent V number, optional), type(property type, eg. House/Single Family, optional), page(page index, start from 0, optional) |
 | GET /properties/:propertyId | get a property| none |
 
 ###Content Type - File
