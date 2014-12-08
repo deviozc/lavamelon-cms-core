@@ -37,7 +37,10 @@ module.exports = {
             status: 'deleted'
         }).exec(function(err, property) {
             if(err) res.serverError('db error');
-            res.json(property);
+            if(property.length === 0){
+                res.badRequest('Property not found');
+            }
+            res.ok('success');
             return;
         });
     },
