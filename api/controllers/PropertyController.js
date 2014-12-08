@@ -30,6 +30,7 @@ module.exports = {
         var domain = req.query.domain;
         var agent = req.query.agent;
         var type = req.query.type;
+        var mlsID = req.query.mls;
         if(!domain) {
             res.badRequest('Invalid request, missing domain');
             return;
@@ -40,6 +41,9 @@ module.exports = {
         }
         if( !! type) {
             condition["propertyType"] = type;
+        }
+        if( !! mlsID) {
+            condition["mlsNumber"] = mls;
         }
         async.waterfall([
             function(cb) {
