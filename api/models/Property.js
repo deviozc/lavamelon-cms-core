@@ -8,7 +8,7 @@ module.exports = {
     attributes: {
         sysid: {
             type: "integer",
-            required: true
+            required: false
         },
         type: {
             type: "string",
