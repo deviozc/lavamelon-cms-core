@@ -18,15 +18,16 @@ module.exports = {
             var record = {};
             count++;
             record.site = site;
+            record.type = 'for_sale';
+            record.status = 'active';
             Object.keys(mapping).forEach(function(key) {
                 var mapTo = mapping[key];
                 var field = data[key];
                 if( !! field) {
                     record[mapTo] = field;
                 }
-                record.type = 'for_sale';
-                record.status = 'active';
             });
+            record.remarks = {en: record.remarks + record.remarks2};
             Property.create(record).exec(function(err, created) {
                 if(err){
                     console.log(err);

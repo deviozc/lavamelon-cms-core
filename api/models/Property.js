@@ -79,7 +79,7 @@ module.exports = {
             type: "integer"
         },
         remarks: {
-            type: "string"
+            type: "json"
         },
         remarks2: {
             type: "string"
