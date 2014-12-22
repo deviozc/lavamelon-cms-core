@@ -38,6 +38,7 @@ module.exports = {
       .exec(function(err, files){
           if(err) return cb(err);
           files.forEach(function(element){
+              element.url = sails.config.constants.baseAssetsURL + element.relativePath;
               delete element.site;
           });
           return cb(null, files);
