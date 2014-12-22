@@ -27,15 +27,7 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.local.html
  */
 
-var multer  = require('multer')
-
 module.exports = {
-    
-  http: {
-    customMiddleware: function (app) {
-      app.use(multer());
-    }
-  }
 
   /***************************************************************************
    * Your SSL certificate and key, if you want to be able to serve HTTP      *
