@@ -7,14 +7,11 @@
  */
 module.exports = function canWrite(req, res, next) {
     var userId = req.session.userId;
-    
     var domain = req.param('domain');
     if(!!req.body){
         domain = (typeof req.body.domain !== "undefined") ? req.body.domain : req.param('domain');
     }
-    
     if(!domain){
-        console.log(domain);
         return res.forbidden('You are not permitted to perform this action.');
     }
     
@@ -37,7 +34,6 @@ module.exports = function canWrite(req, res, next) {
         if(canWrite){
             return next();
         }
-        console.log("domain");
         return res.forbidden('You are not permitted to perform this action.');
     });  
 }
