@@ -37,7 +37,7 @@ module.exports.policies = {
     },
     FileController: {
         '*': ['sessionAuth', 'isAdmin'],
-        'upload': ['sessionAuth', 'canUploadFile'],
+        'upload': ['sessionAuth', 'canWrite'],
         'get': ['sessionAuth', 'canWrite'],
         'findByDomain': ['sessionAuth', 'canWrite'],
         'findImageByDomain': ['sessionAuth', 'canWrite'],

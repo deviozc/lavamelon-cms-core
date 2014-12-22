@@ -7,6 +7,7 @@
  */
 module.exports = function canWrite(req, res, next) {
     var userId = req.session.userId;
+    console.log(req.body);
     var domain = req.param('domain');
     if(!!req.body){
         domain = (typeof req.body.domain !== "undefined") ? req.body.domain : req.param('domain');
