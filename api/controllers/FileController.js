@@ -18,7 +18,7 @@ module.exports = {
             return;
         }
         if(!req.body.type || !req.body.id) {
-            req.badRequest("Missing parameters");
+            res.badRequest("Missing parameters");
             return;
         }
         var filename = req.file("file")._files[0].stream.filename;
