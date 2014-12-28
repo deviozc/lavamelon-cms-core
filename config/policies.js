@@ -24,7 +24,8 @@ module.exports.policies = {
         update: ['sessionAuth','canModifyArticle'],
         destroy: ['sessionAuth', 'canModifyArticle'],
         findByDomain: true,
-        findBySection: true
+        findBySection: true,
+        getOne: true
     },
     SiteController: {
         '*': ['sessionAuth', 'isAdmin']

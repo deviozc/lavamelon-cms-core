@@ -7,10 +7,6 @@
 module.exports = {
     schema: true,
     attributes: {
-        template: {
-            type: "string",
-            required: true
-        },
         section: {
             type: "string",
             required: true
@@ -48,35 +44,23 @@ module.exports = {
             },
             function(articles, cb) {
                 var condition = [];
-                articles.forEach(function(element) {
-                    delete element.site;
-                    if( !! element.images && element.images.length > 0) {
-                        element.images.forEach(function(image) {
-                            condition.push({
-                                id: image
-                            });
+                async.each(articles, function(article, cb) {
+                    delete article.site;
+                    if( !! article.images && article.images.length > 0) {
+                        File.populateArrayOfFiles({
+                            files: article.images
+                        }, function(err, files) {
+                            article.images = files;
+                            cb(err);
                         });
+                    }else{
+                        cb();
                     }
-                });
-                File.find({
-                    $or: condition
-                }).exec(function(err, imageResult) {
-                    articles.forEach(function(element) {
-                        if( !! element.images) {
-                            element.images = element.images.map(function(image) {
-                                var mappedResult = {};
-                                imageResult.some(function(result) {
-                                    if(result.id == image) {
-                                        mappedResult = result;
-                                        return true;
-                                    }
-                                    return false;
-                                });
-                                return mappedResult;
-                            });
-                        }
-                    });
-                    cb(null, articles);
+                }, function(err) {
+                    if( !! err) {
+                        return cb(err);
+                    }
+                    return cb(null, articles);
                 });
             }
         ], function(err, articles) {

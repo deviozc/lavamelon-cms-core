@@ -17,6 +17,10 @@ module.exports = {
             res.badRequest("Missing File");
             return;
         }
+        if(!req.body.type || !req.body.id) {
+            req.badRequest("Missing parameters");
+            return;
+        }
         var filename = req.file("file")._files[0].stream.filename;
         res.setTimeout(sails.config.constants.uploadTimeout);
         async.waterfall([
@@ -34,12 +38,12 @@ module.exports = {
             },
             function(uploadedFiles, path, cb) {
                 uploadedFiles.forEach(function(element) {
-                    File.create({
+                    File.create([{
                         filename: filename,
                         relativePath: path + "/" + filename,
                         contentType: element.type,
                         site: req.site
-                    }).exec(function(err, created) {
+                    }]).exec(function(err, created) {
                         cb(err, created, uploadedFiles);
                     });
                 });
@@ -51,6 +55,34 @@ module.exports = {
                     });
                     cb(null, created);
                 }, 1000);
+            },
+            function(uploadedFiles, cb) {
+                var model;
+                if(req.body.type === "property") {
+                    model = Property;
+                } else if(req.body.type === "article") {
+                    model = Article;
+                } else {
+                    req.badRequest("Missing parameters");
+                    return;
+                }
+                console.log(uploadedFiles);
+                var images = uploadedFiles.map(function(file) {
+                    return file.id;
+                });
+                model.findOne({id: req.body.id}).exec(function(err, doc){
+                    if(!!err){
+                        cb(err, uploadedFiles);
+                    }
+                    if(!doc.images){
+                        doc.images = [];
+                    }
+                    doc.images = doc.images.concat(images);
+                    doc.save(function(err){
+                        cb(err, uploadedFiles);
+                    });
+                });
+                
             }
         ], function(err, uploadedFiles) {
             if(err) return res.serverError(err);

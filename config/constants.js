@@ -10,8 +10,9 @@ module.exports.constants = {
     // 240000 => 4 minutes (240,000 miliseconds)
     uploadTimeout: 120000,
     uploadMaxBytes: 10000000,
-    baseAssetsDirectory: "/var/www/lavamelon.com/public_html/assets/uploads/",
+    baseAssetsDirectory: "/var/www/lavamelon.com/cms-core/assets/uploads/",
     baseAssetsURL: "www.lavamelon.com/assets/uploads/",
+    basePropertyImageURL: "http://www.lavamelon.com/mls/mls-images",
     
     mlsFieldToMongoMapping: {
         sysid: "sysid",

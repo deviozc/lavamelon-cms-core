@@ -37,6 +37,7 @@ module.exports.routes = {
     'get /users/me': 'UserController.me',
     'get /sites/:domain/articles': 'ArticleController.findByDomain',
     'get /sites/:domain/section/:section/articles': 'ArticleController.findBySection',
+    'get /articles/:id': 'ArticleController.getOne',
     'get /sites/:domain/files': 'FileController.findByDomain',
     'delete /files/:fileId': 'FileController.delete',
     'get /sites/:domain/images': 'FileController.findImageByDomain',

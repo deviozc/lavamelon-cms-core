@@ -25,8 +25,18 @@ module.exports = {
             status: 'active'
         }).exec(function(err, property) {
             if(err) res.serverError('db error');
-            res.json(property);
-            return;
+            if( !! property.images) {
+                File.populateArrayOfFiles({
+                    files: property.images
+                }, function(err, files) {
+                    property.images = files;
+                    res.json(property);
+                    return;
+                });
+            } else {
+                res.json(property);
+                return;
+            }
         });
     },
     deleteProperty: function(req, res) {
@@ -37,7 +47,7 @@ module.exports = {
             status: 'deleted'
         }).exec(function(err, property) {
             if(err) res.serverError('db error');
-            if(property.length === 0){
+            if(property.length === 0) {
                 res.badRequest('Property not found');
             }
             res.ok('success');
@@ -50,7 +60,7 @@ module.exports = {
         var type = req.query.type;
         var mlsID = req.query.mls;
         var page = req.query.page;
-        var limit = 100;
+        var limit = req.query.limit || 100;
         var pagination = {
             limit: limit
         };
@@ -91,8 +101,31 @@ module.exports = {
             condition.site = siteId;
             Property.find(condition).paginate(pagination).exec(function(err, properties) {
                 if(err) res.serverError("db error");
-                res.json(properties);
-                return;
+                async.each(properties, function(property, cb){
+                    if( !! property.numberOfImages && property.numberOfImages > 0) {
+                        property.importedImages = [];
+                        for(var i = 0; i < property.numberOfImages; i++){
+                            property.importedImages.push(sails.config.constants.basePropertyImageURL + 'image-' + property.sysid + '-' + i + '.jpg');
+                        }
+                    }
+                    if( !! property.images) {
+                        File.populateArrayOfFiles({
+                            files: property.images
+                        }, function(err, files) {
+                            property.images = files;
+                            cb(err);
+                        });
+                    }else{
+                        cb();
+                    }
+                }, function(err) {
+                    if(!!err){
+                        res.serverError("DB Error");
+                        return;
+                    }
+                    res.json(properties);
+                    return;
+                });               
             });
         });
     }
