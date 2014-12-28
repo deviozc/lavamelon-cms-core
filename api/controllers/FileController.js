@@ -22,6 +22,7 @@ module.exports = {
             return;
         }
         var filename = req.file("file")._files[0].stream.filename;
+        filename = new Date().getTime() + filename;
         res.setTimeout(sails.config.constants.uploadTimeout);
         async.waterfall([
             function(callback) {
