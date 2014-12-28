@@ -19,8 +19,8 @@ module.exports = {
         status: {
             type: "string",
             required: true,
-            enum: ['active', 'deleted'],
-            defaultsTo: 'active'
+            enum: ['imported', 'processed', 'deleted'],
+            defaultsTo: 'imported'
         },
         propertyType: {
             type: "string",
@@ -119,6 +119,12 @@ module.exports = {
         },
         listFirmName: {
             type: "string"
+        },
+        longitude: {
+            type: "float"
+        },
+        latitude: {
+            type: "float"
         }
     }
 };
