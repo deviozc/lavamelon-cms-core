@@ -51,7 +51,7 @@ A genertic content type for real estate property
 
 | Endpoint | Description | Parameters |
 | ---- | --------------- | ---------------------|
-| GET /properties?domain=domain&mls=mlsID&agent=agentID&type=propertyType&page=PageNum | get properties, limit 100 listings per request. Use page param to navigate | queryString - domain(required), mls(mls ID, optional), agent(agent V number, optional), type(property type, eg. House/Single Family, optional), page(page index, start from 0, optional) |
+| GET /properties?domain=domain&mls=mlsID&agent=agentID&type=propertyType&page=PageNum&swk=-125.40&swC=0.193&nek=-100.85&neC=49.37&price_low=200000&price_high=250000 | get properties, limit 100 listings per request. Use page param to navigate | queryString - domain(required), mls(mls ID, optional), agent(agent V number, optional), type(property type, eg. House/Single Family, optional), page(page index, start from 0, optional) |
 | GET /properties/:propertyId | get a property| none |
 | PUT /properties/:id | Edit a property (site owner only) | same as POST |
 | DELETE /properties/:id | Delete a property (site owner only) | none |
