@@ -19,7 +19,7 @@ module.exports = {
             count++;
             record.site = site;
             record.type = 'for_sale';
-            record.status = 'active';
+            record.status = 'imported';
             Object.keys(mapping).forEach(function(key) {
                 var mapTo = mapping[key];
                 var field = data[key];
