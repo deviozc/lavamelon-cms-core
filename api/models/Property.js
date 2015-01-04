@@ -120,11 +120,14 @@ module.exports = {
         listFirmName: {
             type: "string"
         },
-        longitude: {
-            type: "float"
-        },
-        latitude: {
-            type: "float"
+        location: {
+            index: '2d',
+            longitude: {
+                type: "float"
+            },
+            latitude: {
+                type: "float"
+            }
         }
     }
 };

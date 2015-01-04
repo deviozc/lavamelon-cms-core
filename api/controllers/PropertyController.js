@@ -4,6 +4,16 @@
  * @description :: Server-side logic for managing properties
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
+
+var ObjectId = require('mongodb').ObjectID;
+
+var _formatMapBound = function(req) {
+    if( !! req.query.nek && !! req.query.neC && !! req.query.swk && !! req.query.swC) {
+        return [[parseFloat(req.query.swk), parseFloat(req.query.swC)], [parseFloat(req.query.nek), parseFloat(req.query.neC)]];
+    }
+    return;
+};
+
 module.exports = {
     _config: {
         actions: false,
@@ -46,7 +56,9 @@ module.exports = {
         }, {
             status: 'deleted'
         }).exec(function(err, property) {
-            if(err) res.serverError('db error');
+            if(err){
+                res.serverError('db error');
+            } 
             if(property.length === 0) {
                 res.badRequest('Property not found');
             }
@@ -61,9 +73,15 @@ module.exports = {
         var mlsID = req.query.mls;
         var page = req.query.page;
         var limit = req.query.limit || 100;
+        var boundingBox = _formatMapBound(req);
+        var priceLow = parseFloat(req.query.price_low) || 0;
+        var priceHigh = parseFloat(req.query.price_high) || -1;
         var pagination = {
             limit: limit
         };
+        
+
+        
         if( !! page) {
             pagination.page = page;
         }
@@ -72,8 +90,14 @@ module.exports = {
             return;
         }
         var condition = {
-            status: 'active'
+//             status: 'active'
         };
+        
+        condition["listingPrice"] = {$gte: priceLow};
+        if(priceHigh !== -1){
+            condition.listingPrice["$lte"] = priceHigh;
+        }
+        
         if( !! agent) {
             condition["listAgentId"] = agent;
         }
@@ -82,6 +106,13 @@ module.exports = {
         }
         if( !! mlsID) {
             condition["mlsNumber"] = mlsID;
+        }
+        if( !! boundingBox) {
+            condition["location"] = {
+                "$geoWithin": {
+                    "$box": boundingBox
+                }
+            };
         }
         async.waterfall([
             function(cb) {
@@ -98,35 +129,67 @@ module.exports = {
             if(!siteId) {
                 res.badRequest("Site not found");
             }
-            condition.site = siteId;
-            Property.find(condition).paginate(pagination).exec(function(err, properties) {
-                if(err) res.serverError("db error");
-                async.each(properties, function(property, cb){
-                    if( !! property.numberOfImages && property.numberOfImages > 0) {
-                        property.importedImages = [];
-                        for(var i = 0; i < property.numberOfImages; i++){
-                            property.importedImages.push(sails.config.constants.basePropertyImageURL + 'image-' + property.sysid + '-' + i + '.jpg');
+            condition.site = new ObjectId(siteId);
+            Property.native(function(err, collection) {
+                collection.find(condition).limit(limit).toArray(function(err, properties) {
+                    if(err){
+                        res.serverError("db error");
+                    } 
+                    async.each(properties, function(property, cb) {
+                        if( !! property.numberOfImages && property.numberOfImages > 0) {
+                            property.importedImages = [];
+                            for(var i = 0; i < property.numberOfImages; i++) {
+                                property.importedImages.push(sails.config.constants.basePropertyImageURL + 'image-' + property.sysid + '-' + i + '.jpg');
+                            }
                         }
-                    }
-                    if( !! property.images) {
-                        File.populateArrayOfFiles({
-                            files: property.images
-                        }, function(err, files) {
-                            property.images = files;
-                            cb(err);
-                        });
-                    }else{
-                        cb();
-                    }
-                }, function(err) {
-                    if(!!err){
-                        res.serverError("DB Error");
+                        if( !! property.images) {
+                            File.populateArrayOfFiles({
+                                files: property.images
+                            }, function(err, files) {
+                                property.images = files;
+                                cb(err);
+                            });
+                        } else {
+                            cb();
+                        }
+                    }, function(err) {
+                        if( !! err) {
+                            res.serverError("DB Error");
+                            return;
+                        }
+                        res.json(properties);
                         return;
-                    }
-                    res.json(properties);
-                    return;
-                });               
+                    });
+                });
             });
+            //             Property.find(condition).paginate(pagination).exec(function(err, properties) {
+            //                 if(err) res.serverError("db error");
+            //                 async.each(properties, function(property, cb) {
+            //                     if( !! property.numberOfImages && property.numberOfImages > 0) {
+            //                         property.importedImages = [];
+            //                         for(var i = 0; i < property.numberOfImages; i++) {
+            //                             property.importedImages.push(sails.config.constants.basePropertyImageURL + 'image-' + property.sysid + '-' + i + '.jpg');
+            //                         }
+            //                     }
+            //                     if( !! property.images) {
+            //                         File.populateArrayOfFiles({
+            //                             files: property.images
+            //                         }, function(err, files) {
+            //                             property.images = files;
+            //                             cb(err);
+            //                         });
+            //                     } else {
+            //                         cb();
+            //                     }
+            //                 }, function(err) {
+            //                     if( !! err) {
+            //                         res.serverError("DB Error");
+            //                         return;
+            //                     }
+            //                     res.json(properties);
+            //                     return;
+            //                 });
+            //             });
         });
     }
 };
