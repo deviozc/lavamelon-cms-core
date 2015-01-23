@@ -9,7 +9,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 var _formatMapBound = function(req) {
     if( !! req.query.nek && !! req.query.neC && !! req.query.swk && !! req.query.swC) {
-        return [[parseFloat(req.query.swk), parseFloat(req.query.swC)], [parseFloat(req.query.nek), parseFloat(req.query.neC)]];
+        return [[parseFloat(req.query.swC), parseFloat(req.query.swk)], [parseFloat(req.query.neC), parseFloat(req.query.nek)]];
     }
     return;
 };
@@ -114,6 +114,7 @@ module.exports = {
                 }
             };
         }
+        console.log(JSON.stringify(condition));
         async.waterfall([
             function(cb) {
                 Site.findOne({
