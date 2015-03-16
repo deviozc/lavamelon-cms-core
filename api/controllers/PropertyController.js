@@ -31,7 +31,7 @@ module.exports = {
     getOne: function(req, res) {
         var id = req.param('id');
         Property.findOne({
-            _id: new ObjectId(id),
+            id: id,
             $or: [{status: 'active'}, {status: 'processed'}]
         }).exec(function(err, property) {
             if(!!err){
@@ -39,7 +39,7 @@ module.exports = {
                 return;
             }
             if(!property){
-                res.serverError('Property cannot be found.');
+                res.badRequest('Property cannot be found.');
                 return;
             } 
             if( !! property.images) {
@@ -59,7 +59,7 @@ module.exports = {
     deleteProperty: function(req, res) {
         var id = req.param('id');
         Property.update({
-            _id: new ObjectId(id)
+            id: id
         }, {
             status: 'deleted'
         }).exec(function(err, property) {
