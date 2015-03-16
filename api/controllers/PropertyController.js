@@ -31,7 +31,7 @@ module.exports = {
     getOne: function(req, res) {
         var id = req.param('id');
         Property.findOne({
-            _id: id,
+            _id: new ObjectId(id),
             status: 'active'
         }).exec(function(err, property) {
             if(!!err){
@@ -59,7 +59,7 @@ module.exports = {
     deleteProperty: function(req, res) {
         var id = req.param('id');
         Property.update({
-            id: id
+            _id: new ObjectId(id)
         }, {
             status: 'deleted'
         }).exec(function(err, property) {
