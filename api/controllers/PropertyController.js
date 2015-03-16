@@ -32,7 +32,7 @@ module.exports = {
         var id = req.param('id');
         Property.findOne({
             _id: new ObjectId(id),
-            status: 'active'
+            $or: [{status: 'active'}, {status: 'processed'}]
         }).exec(function(err, property) {
             if(!!err){
                 res.serverError('db error');
