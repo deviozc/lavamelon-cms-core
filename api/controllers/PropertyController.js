@@ -31,10 +31,17 @@ module.exports = {
     getOne: function(req, res) {
         var id = req.param('id');
         Property.findOne({
-            id: id,
+            _id: id,
             status: 'active'
         }).exec(function(err, property) {
-            if(err) res.serverError('db error');
+            if(!!err){
+                res.serverError('db error');
+                return;
+            }
+            if(!property){
+                res.serverError('Property cannot be found.');
+                return;
+            } 
             if( !! property.images) {
                 File.populateArrayOfFiles({
                     files: property.images
