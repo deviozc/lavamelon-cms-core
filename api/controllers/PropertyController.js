@@ -4,16 +4,13 @@
  * @description :: Server-side logic for managing properties
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-
 var ObjectId = require('mongodb').ObjectID;
-
 var _formatMapBound = function(req) {
     if( !! req.query.nek && !! req.query.neC && !! req.query.swk && !! req.query.swC) {
         return [[parseFloat(req.query.swC), parseFloat(req.query.swk)], [parseFloat(req.query.neC), parseFloat(req.query.nek)]];
     }
     return;
 };
-
 module.exports = {
     _config: {
         actions: false,
@@ -32,16 +29,20 @@ module.exports = {
         var id = req.param('id');
         Property.findOne({
             id: id,
-            $or: [{status: 'active'}, {status: 'processed'}]
+            $or: [{
+                status: 'active'
+            }, {
+                status: 'processed'
+            }]
         }).exec(function(err, property) {
-            if(!!err){
+            if( !! err) {
                 res.serverError('db error');
                 return;
             }
-            if(!property){
+            if(!property) {
                 res.badRequest('Property cannot be found.');
                 return;
-            } 
+            }
             if( !! property.images) {
                 File.populateArrayOfFiles({
                     files: property.images
@@ -63,9 +64,9 @@ module.exports = {
         }, {
             status: 'deleted'
         }).exec(function(err, property) {
-            if(err){
+            if(err) {
                 res.serverError('db error');
-            } 
+            }
             if(property.length === 0) {
                 res.badRequest('Property not found');
             }
@@ -86,9 +87,6 @@ module.exports = {
         var pagination = {
             limit: limit
         };
-        
-
-        
         if( !! page) {
             pagination.page = page;
         }
@@ -97,14 +95,14 @@ module.exports = {
             return;
         }
         var condition = {
-//             status: 'active'
+            //             status: 'active'
         };
-        
-        condition["listingPrice"] = {$gte: priceLow};
-        if(priceHigh !== -1){
+        condition["listingPrice"] = {
+            $gte: priceLow
+        };
+        if(priceHigh !== -1) {
             condition.listingPrice["$lte"] = priceHigh;
         }
-        
         if( !! agent) {
             condition["listAgentId"] = agent;
         }
@@ -140,9 +138,9 @@ module.exports = {
             condition.site = new ObjectId(siteId);
             Property.native(function(err, collection) {
                 collection.find(condition).limit(limit).toArray(function(err, properties) {
-                    if(err){
+                    if(err) {
                         res.serverError("db error");
-                    } 
+                    }
                     async.each(properties, function(property, cb) {
                         if( !! property.numberOfImages && property.numberOfImages > 0) {
                             property.importedImages = [];
