@@ -113,11 +113,11 @@ module.exports = {
             condition["mlsNumber"] = mlsID;
         }
         if( !! boundingBox) {
-            condition["location"] = {
-                "$geoWithin": {
-                    "$box": boundingBox
-                }
-            };
+//             condition["location"] = {
+//                 "$geoWithin": {
+//                     "$box": boundingBox
+//                 }
+//             };
         }
         console.log(JSON.stringify(condition));
         async.waterfall([
