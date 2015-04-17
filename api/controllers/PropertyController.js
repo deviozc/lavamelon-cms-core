@@ -137,7 +137,7 @@ module.exports = {
             }
             condition.site = new ObjectId(siteId);
             Property.native(function(err, collection) {
-                collection.find(condition).limit(limit).toArray(function(err, properties) {
+                collection.find(condition, {remarks: 0, remarks2: 0}).limit(limit).toArray(function(err, properties) {
                     if(err) {
                         res.serverError("db error");
                     }
