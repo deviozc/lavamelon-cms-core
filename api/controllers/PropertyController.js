@@ -80,7 +80,7 @@ module.exports = {
         var type = req.query.type;
         var mlsID = req.query.mls;
         var page = req.query.page;
-        var limit = req.query.limit || 100000;
+        var limit = req.query.limit || 500;
         var boundingBox = _formatMapBound(req);
         var priceLow = parseFloat(req.query.price_low) || 0;
         var priceHigh = parseFloat(req.query.price_high) || -1;
@@ -113,11 +113,11 @@ module.exports = {
             condition["mlsNumber"] = mlsID;
         }
         if( !! boundingBox) {
-//             condition["location"] = {
-//                 "$geoWithin": {
-//                     "$box": boundingBox
-//                 }
-//             };
+            condition["location"] = {
+                "$geoWithin": {
+                    "$box": boundingBox
+                }
+            };
         }
         console.log(JSON.stringify(condition));
         async.waterfall([
@@ -142,12 +142,12 @@ module.exports = {
                         res.serverError("db error");
                     }
                     async.each(properties, function(property, cb) {
-                        if( !! property.numberOfImages && property.numberOfImages > 0) {
-                            property.importedImages = [];
-                            for(var i = 0; i < property.numberOfImages; i++) {
-                                property.importedImages.push(sails.config.constants.basePropertyImageURL + 'image-' + property.sysid + '-' + i + '.jpg');
-                            }
-                        }
+//                         if( !! property.numberOfImages && property.numberOfImages > 0) {
+//                             property.importedImages = [];
+//                             for(var i = 0; i < property.numberOfImages; i++) {
+//                                 property.importedImages.push(sails.config.constants.basePropertyImageURL + 'image-' + property.sysid + '-' + i + '.jpg');
+//                             }
+//                         }
                         if( !! property.images) {
                             File.populateArrayOfFiles({
                                 files: property.images
