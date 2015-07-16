@@ -33,6 +33,8 @@ module.exports = {
                 status: 'active'
             }, {
                 status: 'processed'
+            }, {
+                status: 'input'
             }]
         }).exec(function(err, property) {
             if( !! err) {
