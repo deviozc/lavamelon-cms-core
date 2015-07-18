@@ -82,10 +82,12 @@ module.exports = {
         var type = req.query.type;
         var mlsID = req.query.mls;
         var page = req.query.page;
-        var limit = req.query.limit || 300;
+        var limit = req.query.limit || 500;
         var boundingBox = _formatMapBound(req);
         var priceLow = parseFloat(req.query.price_low) || 0;
         var priceHigh = parseFloat(req.query.price_high) || -1;
+        var numBath = req.query.bath || -1;
+        var numBed = req.query.bed || -1;
         var pagination = {
             limit: limit
         };
@@ -104,6 +106,20 @@ module.exports = {
         };
         if(priceHigh !== -1) {
             condition.listingPrice["$lte"] = priceHigh;
+        }
+        if(numBath !== -1) {
+            if(numBath === "5+"){
+                condition.totalBath["$gte"] = 5;
+            }else{
+                condition.totalBath = parseInt(numBath);
+            }
+        }
+        if(numBed !== -1) {
+            if(numBed === "5+"){
+                condition.totalBedroom["$gte"] = 5;
+            }else{
+                condition.totalBedroom = parseInt(numBed);
+            }
         }
         if( !! agent) {
             condition["listAgentId"] = agent;
