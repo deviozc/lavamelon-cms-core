@@ -79,6 +79,7 @@ module.exports = {
     get: function(req, res) {
         var domain = req.query.domain;
         var agent = req.query.agent;
+        var generalSearch = req.query.region;
         var type = req.query.type;
         var mlsID = req.query.mls;
         var page = req.query.page;
@@ -123,6 +124,11 @@ module.exports = {
         }
         if( !! agent) {
             condition["listAgentId"] = agent;
+        }
+        if(!! generalSearch) {
+            condition["$or"] = [];
+            condition["$or"].push({"listAgentId": generalSearch.toUpperCase()});
+            condition["$or"].push({"city": new RegExp(generalSearch, 'i')});
         }
         if( !! type) {
             condition["propertyType"] = type;
